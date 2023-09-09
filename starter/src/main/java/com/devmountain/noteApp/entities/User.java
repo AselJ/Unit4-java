@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -30,7 +31,7 @@ private Set<Note> noteSet = new HashSet<>();
             this.username = userDto.getUsername();
         }
         if (userDto.getPassword() != null){
-            this.password = userDto.getPassword();
+            this.password = (String) userDto.getPassword();
         }
     }
 
@@ -62,6 +63,14 @@ private Set<Note> noteSet = new HashSet<>();
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Optional<NoteDto> getNoteById(Long noteId) {
+        Optional<Note> noteOptional = noteRepository.findById(noteId);
+        if (noteOptional.isPresent()){
+            return Optional.of(new NoteDto(noteOptional.get()));
+        }
+        return Optional.empty();
     }
 }
 

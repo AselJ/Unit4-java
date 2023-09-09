@@ -35,7 +35,7 @@ public class UserDto implements Serializable {
         return null;
     }
 
-    public String getPassword() {
+    public CharSequence getPassword() {
         return password;
     }
 
