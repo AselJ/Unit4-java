@@ -1,45 +1,28 @@
 package com.devmountain.noteApp.entities;
-
-import com.devmountain.noteApp.dtos.NoteDto;
 import com.devmountain.noteApp.dtos.UserDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
-@Entity
-@Table(name = "Users")
+@Entity //this is annotation is what tells Spring that this class is being mapped to a data source
+@Table(name = "Users") //This is where you can set what table you want these objects to be mapped to
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-@Column(unique = true)
-private String username;
+    @Column(unique = true)
+    private  String username;
 
-@Column
-private String password;
+    @Column
+    private String password;
 
-@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-@JsonManagedReference
-private Set<Note> noteSet = new HashSet<>();
-
-    public User(UserDto userDto) {
-        if(userDto.getUsername() != null){
-            this.username = userDto.getUsername();
-        }
-        if (userDto.getPassword() != null){
-            this.password = (String) userDto.getPassword();
-        }
-    }
-
-    public User(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @JsonManagedReference
+    private Set<Note> noteSet = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -65,17 +48,21 @@ private Set<Note> noteSet = new HashSet<>();
         this.password = password;
     }
 
-    public Optional<NoteDto> getNoteById(Long noteId) {
-        Optional<Note> noteOptional = noteRepository.findById(noteId);
-        if (noteOptional.isPresent()){
-            return Optional.of(new NoteDto(noteOptional.get()));
-        }
-        return Optional.empty();
+    public User() {
     }
 
+    public User(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(UserDto userDto){
+        if(userDto.getUsername() != null){
+            this.username = userDto.getUsername();
+        }
+        if(userDto.getPassword() != null){
+            this.password = userDto.getPassword();
+        }
+    }
 }
-
-
-
-
-

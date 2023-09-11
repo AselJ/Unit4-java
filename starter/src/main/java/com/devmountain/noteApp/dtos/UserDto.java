@@ -12,7 +12,6 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UserDto implements Serializable {
     private Long id;
     private String username;
@@ -20,26 +19,14 @@ public class UserDto implements Serializable {
     private Set<NoteDto> noteDtoSet = new HashSet<>();
 
     public UserDto(User user){
-        if (user.getId() != null){
+        if(user.getId() != null){
             this.id = user.getId();
         }
-        if (user.getUsername() != null){
+        if(user.getUsername() != null){
             this.username = user.getUsername();
         }
-        if (user.getPassword() != null){
+        if(user.getUsername() != null){
             this.password = user.getPassword();
         }
-    }
-
-    public String getUsername() {
-        return null;
-    }
-
-    public CharSequence getPassword() {
-        return password;
-    }
-
-    public void setPassword(boolean password) {
-        this.password = String.valueOf(password);
     }
 }
