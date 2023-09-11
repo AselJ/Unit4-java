@@ -51,7 +51,8 @@ public class Note {
         Optional<Note> noteOptional = noteRepository.findById(noteDto.getId());
         noteOptional.isPresent(note -> {
             note.setBody(noteDto.getBody());
-            noteRepository.saveAndFlush(note);
+
+            
         });
     }
 
